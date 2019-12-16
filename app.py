@@ -59,15 +59,15 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]
                     message_text = messaging_event["message"]["text"]
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
-                        send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
-                        send_attachment(sender_id,"vmarketing")
-                        send_quick_reply(sender_id, "vmarketing")
-                    else:
-                        get_infor_employee(sender_id,"SDT cua ban la:")
-                        #SDT = messaging_event["message"]["text"]
-                        get_infor_employee(sender_id,"Email cua ban la:")
-                        #email = messaging_event["message"]["text"]
-                        #insert_employee(name,sender_id,SDT,email)
+                        ref = messaging_event['postback']['referral']['ref']
+                        if ref == 'employee':
+                            get_infor_employee(sender_id,"SDT cua ban la:")
+                            get_infor_employee(sender_id,"Email cua ban la:")
+                        else:
+                            send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
+                            send_attachment(sender_id,"vmarketing")
+                            send_quick_reply(sender_id, "vmarketing")
+                 
                                          
     return "ok", 200
 
@@ -89,7 +89,7 @@ def link_referral(sender_id,page_id):
     "postback":{
         "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"link\"}",
         "referral": {
-        "ref": "id",
+        "ref": "employee",
         "source": "SHORTLINK",
         "type": "OPEN_THREAD",
         }
@@ -105,43 +105,6 @@ def get_infor(sender_id):
     r = requests.get(url,params = payload)
     result = json.loads(r.text)
     return result['name']
-
-#ham check nhan vien
-def send_check_employee(recipient_id,message_text):
-    log("send check employee to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({ 
-         "recipient": {
-            "id": recipient_id
-        },
-        "messaging_type": "RESPONSE",
-        "message":{
-            "text": "Ban co phai la nhan vien cua Vmarketing khong?",
-            "quick_replies":[
-            {
-                "content_type":"text",
-                "title": "Yes",
-                "payload": "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"yes\"}"
-                
-            },
-            {
-                "content_type":"text",
-                "title":"No",
-                "payload": "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"no\"}"
-                
-            }
-            ]
-        }
-    })
-    r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
-    if r.status_code != 200:
-        log(r.status_code)
-        log(r.text)
 
 #ham nhap TT nhan vien
 def get_infor_employee(recipient_id, message_text):
