@@ -47,57 +47,18 @@ def webhook():
 
                     elif message_text == 'Tu van ngay':
                         send_mes(sender_id,'Nhan vien cua chung toi se tu van cho ban ve cac giai phap cua Vmarketing.')
-                    if message_text.isdigit()== True and len(message_text)==10 :
-                        phone = message_text
-                    if message_text.find('@') != -1:
-                        email = message_text
-                    if len(phone)!= 0 and len(email) != 0:
-                        insert_employee(name,sender_id,phone,email)
-
+                   
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]
                     message_text = messaging_event["message"]["text"]
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
-                        '''ref = messaging_event['postback']['referral']['ref']
-                        if ref == 'employee':
-                            get_infor_employee(sender_id,"SDT cua ban la:")
-                            get_infor_employee(sender_id,"Email cua ban la:")
-                        else:
-                            send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
-                            send_attachment(sender_id,"vmarketing")
-                            send_quick_reply(sender_id, "vmarketing")'''
                         send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                         send_attachment(sender_id,"vmarketing")
                         send_quick_reply(sender_id, "vmarketing")
                  
                                          
     return "ok", 200
-
-def link_referral(sender_id,page_id):
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-    "sender":{
-        "id": sender_id
-    },
-    "recipient":{
-        "id": page_id
-    },
-    "timestamp":1458692752478,
-    "postback":{
-        "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"link\"}",
-        "referral": {
-        "ref": "employee",
-        "source": "SHORTLINK",
-        "type": "OPEN_THREAD",
-        }
-    }
-    })
 
 def get_infor(sender_id):
     url = "https://graph.facebook.com/{0}".format(sender_id)
