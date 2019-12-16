@@ -59,14 +59,17 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]
                     message_text = messaging_event["message"]["text"]
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
-                        ref = messaging_event['postback']['referral']['ref']
+                        '''ref = messaging_event['postback']['referral']['ref']
                         if ref == 'employee':
                             get_infor_employee(sender_id,"SDT cua ban la:")
                             get_infor_employee(sender_id,"Email cua ban la:")
                         else:
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                             send_attachment(sender_id,"vmarketing")
-                            send_quick_reply(sender_id, "vmarketing")
+                            send_quick_reply(sender_id, "vmarketing")'''
+                        send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
+                        send_attachment(sender_id,"vmarketing")
+                        send_quick_reply(sender_id, "vmarketing")
                  
                                          
     return "ok", 200
