@@ -54,6 +54,7 @@ def webhook():
                     if message_text.find('@vivas.vn') != -1:
                         mail_add= message_text
                     if len(phone)!= 0 and len(mail_add) != 0:
+                        send_mes(sender_id, 'Cam on ban da dien thong tin')
                         insert_employee(name,sender_id,phone,mail_add)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
