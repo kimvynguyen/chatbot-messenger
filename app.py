@@ -27,7 +27,8 @@ def webhook():
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
+    phone =""
+    mail_add =""
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -47,15 +48,17 @@ def webhook():
 
                     elif message_text == 'Tu van ngay':
                         send_mes(sender_id,'Nhan vien cua chung toi se tu van cho ban ve cac giai phap cua Vmarketing.')
-                    phone =""
-                    mail_add =""
-                    if message_text.isdigit()== True and len(message_text)==10 :
-                        phone = message_text
+                    phone= ""
+                    email_add =""
                     if message_text.find('@vivas.vn') != -1:
-                        mail_add= message_text
-                    if len(phone)!= 0 and len(mail_add) != 0:
-                        send_mes(sender_id, 'Cam on ban da dien thong tin')
-                        insert_employee(name,sender_id,phone,mail_add)
+                        res = message_text.split('',2)
+                        phone = res[0]
+                        email_add = res[1]
+                    if email_add != "":
+                        print (phone)
+                        print (email_add)
+                        send_mes(sender_id,"Cam on ban da nhap thong tin thanh cong.")
+                        insert_employee(name,sender_id,phone,email_add)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
