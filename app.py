@@ -50,25 +50,23 @@ def webhook():
                     if message_text.isdigit()== True and len(message_text)==10 :
                         phone = message_text
                     if message_text.find('@vivas.vn') != -1:
-                        email = message_text
-                    if len(phone)!= 0 and len(email) != 0:
-                        insert_employee(name,sender_id,phone,email)
+                        mail = message_text
+                    if len(phone)!= 0 and len(mail) != 0:
+                        insert_employee(name,sender_id,phone,mail)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]
                     name = get_infor(sender_id)
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
-                        send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
-                        send_attachment(sender_id,"vmarketing")
-                        send_quick_reply(sender_id, "vmarketing") 
-                        if messaging_event['postback']['referral']['ref'] == "employee": 
-                            insert_employee(name,sender_id,"0364094270","abc@gmail.com")
-                            get_infor_employee(sender_id,"Nhap SDT va email cua ban:")
-                        '''else:
+                        tmp = messaging_event['postback']
+                        if tmp.find('referral') !=-1:
+                            if messaging_event['postback']['referral']['ref'] == "employee": 
+                                get_infor_employee(sender_id,"Nhap SDT va email cua ban:")
+                        else:
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                             send_attachment(sender_id,"vmarketing")
-                            send_quick_reply(sender_id, "vmarketing")'''
+                            send_quick_reply(sender_id, "vmarketing")
                         
                                          
     return "ok", 200
