@@ -47,12 +47,14 @@ def webhook():
 
                     elif message_text == 'Tu van ngay':
                         send_mes(sender_id,'Nhan vien cua chung toi se tu van cho ban ve cac giai phap cua Vmarketing.')
+                    phone =""
+                    mail_add =""
                     if message_text.isdigit()== True and len(message_text)==10 :
                         phone = message_text
                     if message_text.find('@vivas.vn') != -1:
-                        mail = message_text
-                    if len(phone)!= 0 and len(mail) != 0:
-                        insert_employee(name,sender_id,phone,mail)
+                        mail_add= message_text
+                    if len(phone)!= 0 and len(mail_add) != 0:
+                        insert_employee(name,sender_id,phone,mail_add)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
