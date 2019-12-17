@@ -58,12 +58,15 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
+                        send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
+                        send_attachment(sender_id,"vmarketing")
+                        send_quick_reply(sender_id, "vmarketing") 
                         if messaging_event['postback']['referral']['ref'] == "employee": 
                             get_infor_employee(sender_id,"Nhap SDT va email cua ban:")
-                        else:
+                        '''else:
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                             send_attachment(sender_id,"vmarketing")
-                            send_quick_reply(sender_id, "vmarketing") 
+                            send_quick_reply(sender_id, "vmarketing")'''
                         
                                          
     return "ok", 200
