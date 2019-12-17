@@ -55,8 +55,6 @@ def webhook():
                         phone = res[0]
                         email_add = res[1]
                     if email_add != "":
-                        print (phone)
-                        print (email_add)
                         send_mes(sender_id,"Cam on ban da nhap thong tin thanh cong.")
                         insert_employee(name,sender_id,phone,email_add)
 
