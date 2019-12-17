@@ -60,15 +60,14 @@ def webhook():
                     name = get_infor(sender_id)
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
                         tmp = messaging_event['postback']
-                        if tmp.find('referral') !=-1:
-                            if messaging_event['postback']['referral']['ref'] == "employee": 
-                                get_infor_employee(sender_id,"Nhap SDT va email cua ban:")
-                        else:
+                        if tmp.find('referral') == -1:
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                             send_attachment(sender_id,"vmarketing")
                             send_quick_reply(sender_id, "vmarketing")
-                        
-                                         
+                        elif tmp.find('referral') !=-1:
+                            if messaging_event['postback']['referral']['ref'] == "employee": 
+                                get_infor_employee(sender_id,"Nhap SDT va email cua ban:")                          
+                                               
     return "ok", 200
 
 def link_referral(sender_id,page_id):
