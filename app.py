@@ -51,7 +51,7 @@ def webhook():
                     phone= ""
                     email_add =""
                     if message_text.find('@vivas.vn') != -1:
-                        res = message_text.split('',2)
+                        res = message_text.split()
                         phone = res[0]
                         email_add = res[1]
                     if email_add != "":
