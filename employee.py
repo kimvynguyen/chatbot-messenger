@@ -6,7 +6,7 @@ import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "quickstart-1576060735118-cecb4a18398b.json"
 
 #ham insert nhan vien vao sheet
-def insert_employee(name, FacebookID, SDT, email):
+def insert_employee(fb_name, FacebookID, name, SDT, email):
     credentials = None
     service = discovery.build('sheets', 'v4', credentials=credentials)
     # The ID of the spreadsheet to update.
@@ -21,7 +21,7 @@ def insert_employee(name, FacebookID, SDT, email):
     # How the input data should be inserted.
     insert_data_option = 'INSERT_ROWS'  # TODO: Update placeholder value.
     value_range_body = {
-        "values":[[ name, FacebookID, SDT,email]
+        "values":[[ fb_name, FacebookID,name,SDT,email]
                 ]
         }
     request = service.spreadsheets().values().append(spreadsheetId=spreadsheet_id, range=range_, valueInputOption=value_input_option, insertDataOption=insert_data_option, body=value_range_body)

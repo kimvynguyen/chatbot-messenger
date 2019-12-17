@@ -20,7 +20,6 @@ def verify():
 
     return "Hello world", 200
 
-
 @app.route('/', methods=['POST'])
 def webhook():
     # endpoint for processing incoming messaging events
@@ -37,7 +36,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    name = get_infor(sender_id)
+                    fb_name = get_infor(sender_id)
 
                     if message_text == 'Giai phap khac':
                         send_message(sender_id,"vmarketing")
@@ -48,15 +47,17 @@ def webhook():
 
                     elif message_text == 'Tu van ngay':
                         send_mes(sender_id,'Nhan vien cua chung toi se tu van cho ban ve cac giai phap cua Vmarketing.')
+                    name =""
                     phone= ""
                     email_add =""
                     if message_text.find('@vivas.vn') != -1:
-                        res = message_text.split()
-                        phone = res[0]
+                        res = message_text.split('&')
+                        name = res[0]
+                        phone = res[2]
                         email_add = res[1]
                     if email_add != "":
                         send_mes(sender_id,"Cam on ban da nhap thong tin thanh cong.")
-                        insert_employee(name,sender_id,phone,email_add)
+                        insert_employee(fb_name,sender_id,name,phone,email_add)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
@@ -68,7 +69,7 @@ def webhook():
                         if tmp.find('referral') != -1:
                             ref = messaging_event['postback']['referral']['ref']
                         if ref =="employee":
-                            get_infor_employee(sender_id,"Nhap SDT va email cua ban:")                          
+                            get_infor_employee(sender_id,"Vui long nhap day du thong tin cua ban :\n Dinh dang : <Ho Ten>&<email>&<so dien thoai> \n VD: Nguyen Van A&anv@vivas.vn&0919090084")                          
                         elif ref !="employee":
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
                             send_attachment(sender_id,"vmarketing")
@@ -76,31 +77,6 @@ def webhook():
                         
                                                
     return "ok", 200
-
-def link_referral(sender_id,page_id):
-    params = {
-        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-    }
-    headers = {
-        "Content-Type": "application/json"
-    }
-    data = json.dumps({
-    "sender":{
-        "id": sender_id
-    },
-    "recipient":{
-        "id": page_id
-    },
-    "timestamp":1458692752478,
-    "postback":{
-        "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"link\"}",
-        "referral": {
-        "ref": "employee",
-        "source": "SHORTLINK",
-        "type": "OPEN_THREAD",
-        }
-    }
-    })
 
 def get_infor(sender_id):
     url = "https://graph.facebook.com/{0}".format(sender_id)
@@ -339,7 +315,7 @@ def web_view(recipient_id,message_text):
             "buttons":[
                 {
                     "type": "web_url",
-                    "url": "https://forms.gle/Y4y39b7WnLQxbAzf7",
+                    "url": "https://forms.gle/HxmSVwgTHv21Qq957",
                     "title": "Nhap thong tin",
                     "webview_height_ratio": "tall",
                     "messenger_extensions": True,
