@@ -58,7 +58,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
-                        ref = messaging_event['postback']['referral']['ref']
+                        ref = messaging_event['referral']['ref']
                         if ref == 'employee':
                             get_infor_employee(sender_id,"SDT cua ban la:")
                             get_infor_employee(sender_id,"Email cua ban la:")
