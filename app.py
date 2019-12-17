@@ -60,6 +60,7 @@ def webhook():
                     name = get_infor(sender_id)
                     if messaging_event['postback']['payload'] == "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"Get Started\"}":
                         tmp = json.dumps(messaging_event['postback'])
+                        ref =""
                         if tmp.find('referral') != -1:
                             ref = messaging_event['postback']['referral']['ref']
                         if ref =="employee":
