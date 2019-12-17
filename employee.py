@@ -3,7 +3,7 @@ from apiclient.discovery import build
 from googleapiclient import discovery
 import os
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "kimvynguyen\chatbot-messenger\quickstart-1576060735118-cecb4a18398b.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "\quickstart-1576060735118-cecb4a18398b.json"
 
 #ham insert nhan vien vao sheet
 def insert_employee(name, FacebookID, SDT, email):
