@@ -6,6 +6,8 @@ from datetime import datetime
 import requests
 from flask import Flask, request
 from employee import *
+import ssl_file	
+from OpenSSL import SSL
 
 app = Flask(__name__)
 
@@ -18,7 +20,7 @@ def verify():
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
 
-    return "Hello world", 200
+    return "Xin chào", 200
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -36,28 +38,27 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    fb_name = get_infor(sender_id)
+                    name = get_infor(sender_id)
 
-                    if message_text == 'Giai phap khac':
+                    if message_text == 'Giải pháp khác':
                         send_message(sender_id,"vmarketing")
                         send_quick_reply(sender_id, "vmarketing")
 
-                    elif message_text == 'Tu van sau':
+                    elif message_text == 'Tư vấn sau':
                         web_view(sender_id,"vmarketing")
 
-                    elif message_text == 'Tu van ngay':
-                        send_mes(sender_id,'Nhan vien cua chung toi se tu van cho ban ve cac giai phap cua Vmarketing.')
+                    elif message_text == 'Tư vấn ngay':
+                        send_mes(sender_id,'Nhân viên của chúng tôi sẽ tư vấn cho bạn về các giải pháp của Vmarketing.')
                     name =""
                     phone= ""
                     email_add =""
                     if message_text.find('@vivas.vn') != -1:
                         res = message_text.split('&')
-                        name = res[0]
-                        phone = res[2]
+                        phone = res[0]
                         email_add = res[1]
                     if email_add != "":
-                        send_mes(sender_id,"Cam on ban da nhap thong tin thanh cong.")
-                        insert_employee(fb_name,sender_id,name,phone,email_add)
+                        send_mes(sender_id,"Cảm ơn bạn đã nhập thông tin thành công.")
+                        insert_employee(name,sender_id,phone,email_add)
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                     sender_id = messaging_event["sender"]["id"]      # the facebook ID of the person sending you the message
@@ -69,9 +70,9 @@ def webhook():
                         if tmp.find('referral') != -1:
                             ref = messaging_event['postback']['referral']['ref']
                         if ref =="employee":
-                            get_infor_employee(sender_id,"Vui long nhap day du thong tin cua ban :\n Dinh dang : <Ho Ten>&<email>&<so dien thoai> \n VD: Nguyen Van A&anv@vivas.vn&0919090084")                          
+                            get_infor_employee(sender_id,"Vui lòng nhập đầy đủ thông tin của bạn :\n Định dạng : <Họ Tên>&<email>&<số điện thoại> \n VD: Nguyễn Văn A&anv@vivas.vn&0919090084")                          
                         elif ref !="employee":
-                            send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
+                            send_mes(sender_id, 'Chúng tôi quan niệm: "Đừng ép doanh nghiệp linh hoạt theo giải pháp mà phải đem đến giải pháp linh hoạt với doanh nghiệp."')
                             send_attachment(sender_id,"vmarketing")
                             send_quick_reply(sender_id, "vmarketing")
                         
@@ -90,9 +91,6 @@ def get_infor(sender_id):
 
 #ham nhap TT nhan vien
 def get_infor_employee(recipient_id, message_text):
-
-    log("get infor to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     } 
@@ -114,8 +112,6 @@ def get_infor_employee(recipient_id, message_text):
         log(r.text)
 
 def send_mes(recipient_id, message_text):
-
-    log("sending mes to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
@@ -139,9 +135,6 @@ def send_mes(recipient_id, message_text):
 
 #ham gui tin nhan
 def send_message(recipient_id, message_text):
-
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -191,8 +184,6 @@ def send_message(recipient_id, message_text):
 
 #ham gui hinh anh va nut
 def send_attachment(recipient_id,message_text):
-    log("sending attachment to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -250,7 +241,6 @@ def send_attachment(recipient_id,message_text):
 
 #ham cau tra loi nhanh
 def send_quick_reply(recipient_id,message_text):
-    log("sending quick reply to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -263,23 +253,23 @@ def send_quick_reply(recipient_id,message_text):
         },
         "messaging_type": "RESPONSE",
         "message":{
-            "text": "Ban co can them thong tin gi ve Vmarketing khong nhi?",
+            "text": "Bạn có cần thêm thông tin gì về Vmarketing không nhỉ?",
             "quick_replies":[
             {
                 "content_type":"text",
-                "title": 'Giai phap khac',
+                "title": 'Giải pháp khác',
                 "payload": "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"giai phap\"}"
                 
             },
             {
                 "content_type":"text",
-                "title":'Tu van ngay',
+                "title":'Tư vấn ngay',
                 "payload": "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"chat\"}"
                 
             },
             {
                 "content_type":"text",
-                "title": 'Tu van sau',
+                "title": 'Tư vấn sau',
                 "payload": "{\"type\":\"legacy_reply_to_message_action\",\"message\":\"tu van\"}"
                 
             }
@@ -293,7 +283,6 @@ def send_quick_reply(recipient_id,message_text):
 
 #de lai thong tin tu van -> hien thi webview
 def web_view(recipient_id,message_text):
-    log("sending web view to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -311,7 +300,7 @@ def web_view(recipient_id,message_text):
         "template_type":"generic",
         "elements":[
            {
-            "title":"Vui long de lai thong tin lien he cua ban de chung toi tu van nhe!",
+            "title":"Vui lòng để lại thông tin của bạn để chúng tôi tư vấn nhé!",
             "buttons":[
                 {
                     "type": "web_url",
