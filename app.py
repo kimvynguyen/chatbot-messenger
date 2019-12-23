@@ -113,7 +113,7 @@ def get_infor_employee(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-#gửi tin nhắn
+#gui tin nhan
 def send_mes(recipient_id, message_text):
 
     #log("sending mes to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
@@ -138,7 +138,7 @@ def send_mes(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-#gửi hình và nút
+#gui hinh va nut
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
