@@ -345,4 +345,4 @@ def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,ssl_context="adhoc")
