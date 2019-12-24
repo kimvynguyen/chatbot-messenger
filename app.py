@@ -113,10 +113,9 @@ def get_infor_employee(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-#gui tin nhan
 def send_mes(recipient_id, message_text):
 
-    #log("sending mes to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    log("sending mes to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
@@ -138,7 +137,7 @@ def send_mes(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 
-#gui hinh va nut
+#ham gui tin nhan
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
@@ -345,4 +344,4 @@ def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     sys.stdout.flush()
 
 if __name__ == '__main__':
-    app.run(debug=True,ssl_context="adhoc")
+    app.run(debug=True)
