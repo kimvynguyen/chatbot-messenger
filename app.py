@@ -78,46 +78,6 @@ def webhook():
                                                
     return "ok", 200
 
-#hàm gửi tin nhắn đầu tiên - attachment, button
-# def send_attachment1(recipient_id,message_text):
-#     log("sending attachment to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-#     params = {
-#         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-#     }
-#     headers = {
-#         "Content-Type": "application/json"
-#     }
-#     data = json.dumps({   
-#         "recipient": {
-#             "id": recipient_id
-#         },
-#         "message": {
-#             "attachment": {
-#             "type":"template",
-#             "payload": [{
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Mobile",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
-#             },
-#             {
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Call Center",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
-#             },
-#             {
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Other",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
-#             }]
-#             }
-#         }
-#     })
-#     r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
-#     if r.status_code != 200:
-#         log(r.status_code)
-#         log(r.text)
-
 def get_infor(sender_id):
     url = "https://graph.facebook.com/{0}".format(sender_id)
     payload = { 
@@ -256,21 +216,21 @@ def send_attachment(recipient_id,message_text):
                 {
                     "type": "web_url",
                     "url": "https://solutions.vmarketing.vn/chatbots-communication/",
-                    "title":"Mobile",
+                    "title":"Chatbot Marketing",
                     "webview_height_ratio": "tall",
                     "messenger_extensions": True,
                 },
                 {
                     "type": "web_url",
                     "url": "https://solutions.vmarketing.vn/mobile-marketing-solutions-giai-phap-tich-hop/",
-                    "title":"Call Center",
+                    "title":"Mobile Marketing",
                     "webview_height_ratio": "tall",
                     "messenger_extensions": True,
                 },
                 {
                     "type": "web_url",
                     "url": "https://solutions.vmarketing.vn/o2o-solutions/",
-                    "title":"Other",
+                    "title":"Online to Offline",
                     "webview_height_ratio": "tall",
                     "messenger_extensions": True,
                 }
