@@ -259,18 +259,17 @@ def send_attachment_button(recipient_id,message_text):
     }
     data = json.dumps({   
         "recipient": {
-            "id": recipient_id
+            "id":recipient_id
         },
         "message": {
-            "attachment": {
+        "attachment": {
             "type":"template",
-            "payload": 
-            {
-                "template_type":"one_time_notif_req",
-                "title":"Mobile",
-                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
+            "payload": {
+            "template_type":"one_time_notif_req",
+            "title":"Mobile",
+            "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
             }
-            }
+        }
         }
     })
     r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
