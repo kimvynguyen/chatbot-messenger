@@ -88,73 +88,31 @@ def send_attachment1(recipient_id,message_text):
     headers = {
         "Content-Type": "application/json"
     }
-    data = json.dumps({
-        {
-  "recipient": {
-    "id": recipient_id
-  },
-  "message": {
-    "attachment": {
-      "type":"template",
-      "payload": [{
-        "template_type":"one_time_notif_req",
-        "title":"Mobile",
-        "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
-      },
-      {
-        "template_type":"one_time_notif_req",
-        "title":"Call Center",
-        "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
-      },
-      {
-        "template_type":"one_time_notif_req",
-        "title":"Other",
-        "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
-      }]
-    }
-  }
-}
-    #     "recipient": {
-    #         "id": recipient_id
-    #     },
-    #     "message": {
-    #         "attachment":{
-    #     "type":"template",
-    #     "payload":{
-    #     "template_type":"generic",
-    #     "elements":[
-    #        {
-    #         "title":"Vmarketing",
-    #         "image_url":"https://i.imgur.com/aRdFyEH.png",
-    #         "buttons":[
-    #             {
-    #                 "type": "web_url",
-    #                 "url": "https://solutions.vmarketing.vn/chatbots-communication/",
-    #                 "title":"Mobile",
-    #                 "webview_height_ratio": "tall",
-    #                 "messenger_extensions": True,
-    #             },
-    #             {
-    #                 "type": "web_url",
-    #                 "url": "https://solutions.vmarketing.vn/mobile-marketing-solutions-giai-phap-tich-hop/",
-    #                 "title":"Call Center",
-    #                 "webview_height_ratio": "tall",
-    #                 "messenger_extensions": True,
-    #             },
-    #             {
-    #                 "type": "web_url",
-    #                 "url": "https://solutions.vmarketing.vn/o2o-solutions/",
-    #                 "title":"Other",
-    #                 "webview_height_ratio": "tall",
-    #                 "messenger_extensions": True,
-    #             }
-             
-    #             ]   
-    #       }
-    #     ]
-    #   }
-    # }
-    #     }
+    data = json.dumps({   
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+            "type":"template",
+            "payload": [{
+                "template_type":"one_time_notif_req",
+                "title":"Mobile",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Call Center",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Other",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
+            }]
+            }
+        }
+
     })
     r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
