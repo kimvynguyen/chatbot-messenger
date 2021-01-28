@@ -72,52 +72,52 @@ def webhook():
                             get_infor_employee(sender_id,"Vui long nhap day du thong tin cua ban :\n Dinh dang : <Ho Ten>&<email>&<so dien thoai> \n VD: Nguyen Van A&anv@vivas.vn&0919090084")                          
                         elif ref !="employee":
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
-                            # send_attachment1(sender_id,"vmarketing")
+                            send_attachment(sender_id,"vmarketing")
                             send_quick_reply(sender_id, "vmarketing")
                         
                                                
     return "ok", 200
 
 #hàm gửi tin nhắn đầu tiên - attachment, button
-# def send_attachment1(recipient_id,message_text):
-#     log("sending attachment to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+def send_attachment1(recipient_id,message_text):
+    log("sending attachment to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
-#     params = {
-#         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
-#     }
-#     headers = {
-#         "Content-Type": "application/json"
-#     }
-#     data = json.dumps({   
-#         "recipient": {
-#             "id": recipient_id
-#         },
-#         "message": {
-#             "attachment": {
-#             "type":"template",
-#             "payload": [{
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Mobile",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
-#             },
-#             {
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Call Center",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
-#             },
-#             {
-#                 "template_type":"one_time_notif_req",
-#                 "title":"Other",
-#                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
-#             }]
-#             }
-#         }
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({   
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+            "type":"template",
+            "payload": [{
+                "template_type":"one_time_notif_req",
+                "title":"Mobile",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Call Center",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Other",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
+            }]
+            }
+        }
 
-#     })
-#     r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
-#     if r.status_code != 200:
-#         log(r.status_code)
-#         log(r.text)
+    })
+    r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
 
 def get_infor(sender_id):
     url = "https://graph.facebook.com/{0}".format(sender_id)
