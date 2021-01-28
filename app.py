@@ -247,6 +247,46 @@ def send_attachment(recipient_id,message_text):
         log(r.status_code)
         log(r.text)
 
+#hàm gửi tin nhắn đầu tiên - attachment, button
+def send_attachment_button(recipient_id,message_text):
+    log("sending attachment to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({   
+        "recipient": {
+            "id": recipient_id
+        },
+        "message": {
+            "attachment": {
+            "type":"template",
+            "payload": [{
+                "template_type":"one_time_notif_req",
+                "title":"Mobile",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Call Center",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
+            },
+            {
+                "template_type":"one_time_notif_req",
+                "title":"Other",
+                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
+            }]
+            }
+        }
+    })
+    r = requests.post("https://graph.facebook.com/v4.0/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
 
 #ham cau tra loi nhanh
 def send_quick_reply(recipient_id,message_text):
