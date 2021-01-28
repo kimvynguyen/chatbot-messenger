@@ -72,7 +72,7 @@ def webhook():
                             get_infor_employee(sender_id,"Vui long nhap day du thong tin cua ban :\n Dinh dang : <Ho Ten>&<email>&<so dien thoai> \n VD: Nguyen Van A&anv@vivas.vn&0919090084")                          
                         elif ref !="employee":
                             send_mes(sender_id, 'Chung toi quan niem: "Dung ep doanh nghiep linh hoat theo giai phap ma phai dem den giai phap linh hoat voi doanh nghiep"')
-                            send_attachment1(sender_id,"vmarketing")
+                            # send_attachment1(sender_id,"vmarketing")
                             send_quick_reply(sender_id, "vmarketing")
                         
                                                
