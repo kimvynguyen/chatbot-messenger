@@ -264,21 +264,12 @@ def send_attachment_button(recipient_id,message_text):
         "message": {
             "attachment": {
             "type":"template",
-            "payload": [{
+            "payload": 
+            {
                 "template_type":"one_time_notif_req",
                 "title":"Mobile",
                 "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"mobile\"}"
-            },
-            {
-                "template_type":"one_time_notif_req",
-                "title":"Call Center",
-                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"call center\"}"
-            },
-            {
-                "template_type":"one_time_notif_req",
-                "title":"Other",
-                "payload":"{\"type\":\"legacy_reply_to_message_action\",\"message\":\"other\"}"
-            }]
+            }
             }
         }
     })
